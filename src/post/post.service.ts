@@ -1,22 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
+import { InjectModel } from 'nestjs-typegoose';
+import {Post} from './post.model'
+import { ModelType } from '@typegoose/typegoose/lib/types';
 
 @Injectable()
 export class PostService {
-  index(): any {
-    return [
-      [1, 2, 3, 4],
-      ['a', 'b', 'c', 'd']
-    ];
+
+  constructor(
+    @InjectModel(Post) private readonly postModel: ModelType<Post>
+  ) {};
+
+  async index(): Promise<any> {
+    const ret:any = await this.postModel.find();
+    return ret;
   }
 
-  create(): any {
-    return {status: 1, msg: 'success'};
+  async create(postDto): Promise<any> {
+    await this.postModel.create(postDto);
+    return {success: true};
   }
 
-  detail() : any {
+  async detail(id) : Promise<any> {
+    const ret:any = this.postModel.findById(id);
+    return ret;
+  }
+
+  async update(id, body) : Promise<any> {
+    const ret: any = await this.postModel.findByIdAndUpdate(id, body);
+    return ret;
+  }
+
+  async delete(id) : Promise<any> {
+    const ret: any = await this.postModel.findByIdAndDelete(id);
     return {
-      id: 123,
-      title: 'abcde'
+      success: true
     }
   }
 }
