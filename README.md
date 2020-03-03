@@ -39,3 +39,14 @@
     - 在main.ts文件中加入 `app.useGlobalPipes(new ValidationPipe())`
     - 然后安装 `class-validator`  `class-transformer`两个包，第一个用于验证，第二个用于转换类型
     - 然后在Dto中通过注解使用
+    
+9. 使用passport实现全局登录验证
+    - passport最常用的是local验证和jwt验证
+    - local验证就是通过本地来验证某些数据， jwt验证就是在req的时候验证
+    - 安装passport
+    - 添加strategy文件，编写验证策略
+        1. 继承PassportStrategy(Strategy, [name])
+        2. constructor([注入model]){初始化Field}
+        3. 写validate()验证方法
+        4. 在需要使用strategy的模块Module文件中通过imports: PassportModule, provides: [策略] (LocalStrategy)
+        5. 在需要使用的模块的controller中通过@UseGuards(AuthGuards([name] 'local')) 中即可使用
