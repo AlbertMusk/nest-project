@@ -10,6 +10,8 @@ async function bootstrap() {
   // 使用全局验证管道
   app.useGlobalPipes(new ValidationPipe());
 
+  app.enableCors();
+
   const options = new DocumentBuilder()
     .setTitle('NestJS Project')
     .setDescription('A Nest Project')
